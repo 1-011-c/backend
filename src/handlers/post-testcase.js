@@ -13,7 +13,7 @@ const tableName = process.env.SAMPLE_TABLE;
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
  */
 exports.postTestcaseHandler = async (event) => {
-    const { body, httpMethod, path } = event;
+    const {body, httpMethod, path} = event;
     if (httpMethod !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${httpMethod} method.`);
     }
@@ -40,6 +40,9 @@ exports.postTestcaseHandler = async (event) => {
     const response = {
         statusCode: 200,
         body: JSON.stringify(testCase),
+        headers: {
+            "Content-Type": "/"
+        }
     };
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
