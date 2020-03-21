@@ -122,3 +122,12 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
+  CoronaTestCase:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
