@@ -109,6 +109,29 @@ Resources:
           Properties:
             Path: /
             Method: POST
+  postTestcaseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/handlers/post-testcase.postTestcaseHandler
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: A lambda function that creates a test case and returns it.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CoronaTestCase
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          TEST_CASE_TABLE_NAME: !Ref CoronaTestCase
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /corona-test-case
+            Method: POST
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
