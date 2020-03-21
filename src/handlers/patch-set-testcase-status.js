@@ -91,7 +91,7 @@ exports.patchSetTestcaseStatus = async (event) => {
     const {httpMethod, path, pathParameters} = event;
     const {uuid, infected} = pathParameters;
     try {
-        const response =  await process(uuid, infected, httpMethod);
+        const response =  await processRequest(uuid, infected, httpMethod);
         console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
         return response;
     } catch (e) {
