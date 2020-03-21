@@ -61,7 +61,7 @@ async function processRequest(uuid, infected, httpMethod) {
     if (httpMethod !== 'PATCH') {
         throwHttpError(`${httpMethod} is not supported`, 405);
     }
-    if (isAllowedInfectedValue(infected)) {
+    if (!isAllowedInfectedValue(infected)) {
         throwHttpError(`${infected} is not an allowed infected value`, 400);
     }
     let responseBody;
