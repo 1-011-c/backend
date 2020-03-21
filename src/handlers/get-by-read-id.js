@@ -43,9 +43,12 @@ exports.getByReadIdHandler = async (event) => {
     console.log("result", JSON.stringify(result));
     let response;
     if (result.Items.length <= 0) {
+        const responseBody = {
+            msg: `No test case for uuid ${uuid} found`
+        };
         response = {
             statusCode: 404,
-            body: `No test case for uuid ${uuid} found`
+            body: JSON.stringify(responseBody)
         }
     } else {
         delete result.Items[0].uuid_write;
