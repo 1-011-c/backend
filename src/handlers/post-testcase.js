@@ -7,7 +7,7 @@ const uuid = require('uuid');
 const docClient = new dynamodb.DocumentClient();
 
 // Get the DynamoDB table name from environment variables
-const tableName = process.env.TEST_CASE_TABLE_NAME;
+const tableName = process.env.SAMPLE_TABLE;
 
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
@@ -18,7 +18,7 @@ exports.postTestcaseHandler = async (event) => {
         throw new Error(`postMethod only accepts POST method, you tried: ${httpMethod} method.`);
     }
 
-    const Item = {
+    const testCase = {
         "id": uuid.v4(), // Technical ID TODO remove this later
         "uuid_read": uuid.v4(),
         "uuid_write": uuid.v4(),
@@ -26,19 +26,20 @@ exports.postTestcaseHandler = async (event) => {
         "date": new Date().toISOString()
     };
 
-    console.log('Created Test case', JSON.stringify(Item));
+    console.log('Created Test case', JSON.stringify(testCase));
 
     // Creates a new item, or replaces an old item with a new item
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
+    console.log('Writing to table name ' + tableName);
     const params = {
         TableName: tableName,
-        Item,
+        Item: testCase,
     };
     await docClient.put(params).promise();
 
     const response = {
         statusCode: 200,
-        body: Item,
+        body: testCase,
     };
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
