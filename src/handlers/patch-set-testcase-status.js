@@ -59,7 +59,7 @@ exports.patchSetTestcaseStatus = async (event) => {
     // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
     const {uuid, infected} = pathParameters;
 
-    const testCase = getByWriteId(uuid);
+    const testCase = await getByWriteId(uuid);
     let responseBody;
     let statusCode;
     if (!!testCase) {
