@@ -70,7 +70,7 @@ async function processRequest(uuid, infected, httpMethod) {
     if (!!testCase) {
         await updateTestCase(testCase, infected);
         statusCode = 200;
-        responseBody = "Test Case Updated"
+        responseBody = JSON.stringify(await getByWriteId(uuid));
     } else {
         statusCode = 404;
         responseBody = `No test case for uuid ${uuid} found`
