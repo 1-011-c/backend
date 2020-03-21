@@ -28,19 +28,30 @@ async function createTestCase() {
 
 exports.postTestcaseHandler = async (event) => {
     console.log("Event", JSON.stringify(event, 2, 2));
-    const {body, httpMethod, path} = event;
+    const {body, httpMethod, path, queryStringParameters} = event;
     if (httpMethod !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${httpMethod} method.`);
     }
+    let amount = 1;
+    if (queryStringParameters && queryStringParameters.amount) {
+        const parsedAmount = Number.parseInt(queryStringParameters.amount);
+        if (!!parsedAmount) {
+            amount = parsedAmount;
+        }
+    }
+    if (amount > 50) {
+        amount = 50;
+    }
 
-    // Creates a new item, or replaces an old item with a new item
-    // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
-    console.log('Writing to table name ' + tableName);
-    const testCase = await createTestCase();
+    const cases = [];
+    for (let i = 0; i < amount; i++) {
+        const testCase = await createTestCase();
+        cases.push(testCase);
+    }
 
     const response = {
         statusCode: 200,
-        body: JSON.stringify([testCase]),
+        body: JSON.stringify(cases),
     };
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);

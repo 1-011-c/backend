@@ -5,36 +5,35 @@ const lambda = require('../../../src/handlers/post-testcase');
 // This includes all tests for putItemHandler
 describe('Post Test Case handler', () => {
     let putSpy;
-
-    // One-time setup and teardown, see more in https://jestjs.io/docs/en/setup-teardown
     beforeAll(() => {
-        // Mock DynamoDB put method
-        // https://jestjs.io/docs/en/jest-object.html#jestspyonobject-methodname
         putSpy = jest.spyOn(dynamodb.DocumentClient.prototype, 'put');
     });
 
-    // Clean up mocks
     afterAll(() => {
         putSpy.mockRestore();
     });
 
-    // This test invokes putItemHandler and compares the result
-    it('should add add a new testcase (amount 1)', async () => {
-        // Return the specified value whenever the spied put function is called
+    beforeEach(() => {
         putSpy.mockReturnValue({
             promise: () => Promise.resolve('data'),
         });
+    });
 
-        const event = {
-            httpMethod: 'POST'
+    function buildEvent(amount) {
+        return  {
+            httpMethod: 'POST',
+            queryStringParameters: {
+                "amount": amount
+            }
         };
+    }
+
+    // This test invokes putItemHandler and compares the result
+    it('should add add a new testcase (amount 1)', async () => {
+        const event = buildEvent(null);
 
         // Invoke putItemHandler()
         const result = await lambda.postTestcaseHandler(event);
-        const expectedResult = {
-            statusCode: 200,
-            body: event.body,
-        };
 
         // Compare the result with the expected result
         expect(result).toBeTruthy();
@@ -44,5 +43,29 @@ describe('Post Test Case handler', () => {
         expect(body[0].uuid_write).toBeTruthy();
         expect(body[0].infected).toEqual("NOT_TESTED");
         expect(body[0].date).toBeTruthy();
+    });
+
+    it('should create multiple results', async () => {
+        const event = buildEvent("10");
+        const result = await lambda.postTestcaseHandler(event);
+        expect(result).toBeTruthy();
+        const body = JSON.parse(result.body);
+        expect(body.length).toEqual(10);
+    });
+
+    it('should limit to 50 creations per call', async ()  => {
+        const event = buildEvent("51");
+        const result = await lambda.postTestcaseHandler(event);
+        expect(result).toBeTruthy();
+        const body = JSON.parse(result.body);
+        expect(body.length).toEqual(50);
+    });
+
+    it('should default to 1 for unparseable numbers', async ()  => {
+        const event = buildEvent("??sada");
+        const result = await lambda.postTestcaseHandler(event);
+        expect(result).toBeTruthy();
+        const body = JSON.parse(result.body);
+        expect(body.length).toEqual(1);
     });
 });
