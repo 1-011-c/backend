@@ -26,10 +26,13 @@ exports.getByReadIdHandler = async (event) => {
     const query = {
         TableName: tableName,
         IndexName: "idxReadUUID",
-        KeyConditionExpression: "uuid_read = :uuid_read",
-        ExpressionAttributeValues: {
-            ":uuid_read": uuid
+        KeyConditionExpression: "#key = :value",
+        ExpressionAttributeNames:{
+            "#key": "uuid_read"
         },
+        ExpressionAttributeValues: {
+            ":value": uuid
+        }
     };
 
     console.log("Query", JSON.stringify(query));
