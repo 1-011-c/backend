@@ -165,12 +165,12 @@ Resources:
         - IndexName: "idxReadUUID"
           KeySchema:
             - AttributeName: "uuid_read"
-              KeyType: "HASH"
+              KeyType: "RANGE"
           Projection:
             ProjectionType: "KEYS_ONLY"
         - IndexName: "idxWriteUUID"
           KeySchema:
             - AttributeName: "uuid_write"
-              KeyType: "HASH"
+              KeyType: "RANGE"
           Projection:
             ProjectionType: "KEYS_ONLY"
