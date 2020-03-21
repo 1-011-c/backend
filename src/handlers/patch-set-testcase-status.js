@@ -59,7 +59,7 @@ function isAllowedInfectedValue(infected) {
     return !!allowedValues[infected];
 }
 
-async function process(uuid, infected, httpMethod) {
+async function processRequest(uuid, infected, httpMethod) {
     if (httpMethod !== 'PATCH') {
         throwHttpError(`${httpMethod} is not supported`, 405);
     }
