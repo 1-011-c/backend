@@ -48,6 +48,8 @@ exports.getByReadIdHandler = async (event) => {
             body: `No test case for uuid ${uuid} found`
         }
     } else {
+        delete result.Items[0].uuid_write;
+        delete result.Items[0].uuid_read;
         response = {
             statusCode: 200,
             body: JSON.stringify(result.Items[0]),
