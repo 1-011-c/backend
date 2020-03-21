@@ -39,7 +39,7 @@ exports.getByReadIdHandler = async (event) => {
 
     // Get the item from the table
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property
-    const { Item } = await docClient.scan(query).promise();
+    const { Item } = await docClient.query(query).promise();
 
     const response = {
         statusCode: 200,
