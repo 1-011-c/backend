@@ -19,7 +19,7 @@ describe('Post Test Case handler', () => {
     });
 
     // This test invokes putItemHandler and compares the result
-    it('should add add a new testcase', async () => {
+    it('should add add a new testcase (amount 1)', async () => {
         // Return the specified value whenever the spied put function is called
         putSpy.mockReturnValue({
             promise: () => Promise.resolve('data'),
@@ -39,10 +39,10 @@ describe('Post Test Case handler', () => {
         // Compare the result with the expected result
         expect(result).toBeTruthy();
         const body = JSON.parse(result.body);
-        expect(body.id).toBeTruthy();
-        expect(body.uuid_read).toBeTruthy();
-        expect(body.uuid_write).toBeTruthy();
-        expect(body.infected).toEqual("NOT_TESTED");
-        expect(body.date).toBeTruthy();
+        expect(body[0].id).toBeTruthy();
+        expect(body[0].uuid_read).toBeTruthy();
+        expect(body[0].uuid_write).toBeTruthy();
+        expect(body[0].infected).toEqual("NOT_TESTED");
+        expect(body[0].date).toBeTruthy();
     });
 });
