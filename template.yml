@@ -166,7 +166,11 @@ Resources:
           KeySchema:
             - AttributeName: "uuid_read"
               KeyType: "HASH"
+          Projection:
+            ProjectionType: "KEYS_ONLY "
         - IndexName: "idxWriteUUID"
           KeySchema:
             - AttributeName: "uuid_write"
               KeyType: "HASH"
+          Projection:
+            ProjectionType: "KEYS_ONLY "
