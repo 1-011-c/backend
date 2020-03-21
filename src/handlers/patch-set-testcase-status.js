@@ -8,6 +8,10 @@ const docClient = new dynamodb.DocumentClient();
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.SAMPLE_TABLE;
 
+function throwHttpError(msg, statusCode) {
+    throw {msg, statusCode};
+}
+
 async function getByWriteId(uuid) {
     const query = {
         TableName: tableName,
@@ -45,24 +49,26 @@ async function updateTestCase(item, infected) {
     console.log("Update result is ", JSON.stringify(updateResult));
 }
 
-/**
- * A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
- */
-exports.patchSetTestcaseStatus = async (event) => {
-    const {httpMethod, path, pathParameters} = event;
+function isAllowedInfectedValue(infected) {
+    const allowedValues = {
+        "NOT_TESTED": "NOT_TESTED",
+        "IN_PROGRESS": "IN_PROGRESS",
+        "POSITIVE": "POSITIVE",
+        "NEGATIVE": "NEGATIVE"
+    };
+    return !!allowedValues[infected];
+}
+
+async function process(uuid, infected, httpMethod) {
     if (httpMethod !== 'PATCH') {
-        throw new Error(`getMethod only accept GET method, you tried: ${httpMethod}`);
+        throwHttpError(`${httpMethod} is not supported`, 405);
     }
-    // All log statements are written to CloudWatch by default. For more information, see
-    // https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-logging.html
-    console.log('received:', JSON.stringify(event));
-
-    // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
-    const {uuid, infected} = pathParameters;
-
-    const testCase = await getByWriteId(uuid);
+    if (isAllowedInfectedValue(infected)) {
+        throwHttpError(`${infected} is not an allowed infected value`, 400);
+    }
     let responseBody;
     let statusCode;
+    const testCase = await getByWriteId(uuid);
     if (!!testCase) {
         await updateTestCase(testCase, infected);
         statusCode = 200;
@@ -71,12 +77,27 @@ exports.patchSetTestcaseStatus = async (event) => {
         statusCode = 404;
         responseBody = `No test case for uuid ${uuid} found`
     }
-
-    const response = {
+    return {
         statusCode,
         body: JSON.stringify(responseBody),
     };
+}
 
-    console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
-    return response;
+/**
+ * A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+ */
+exports.patchSetTestcaseStatus = async (event) => {
+    console.log('received:', JSON.stringify(event));
+    const {httpMethod, path, pathParameters} = event;
+    const {uuid, infected} = pathParameters;
+    try {
+        const response =  await process(uuid, infected, httpMethod);
+        console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
+        return response;
+    } catch (e) {
+        return {
+            statusCode: e.statusCode,
+            body: JSON.stringify({msg: e.msg})
+        };
+    }
 };
