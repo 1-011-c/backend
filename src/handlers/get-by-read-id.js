@@ -53,6 +53,7 @@ exports.getByReadIdHandler = async (event) => {
     } else {
         delete result.Items[0].uuid_write;
         delete result.Items[0].uuid_read;
+        delete result.Items[0].id;
         response = {
             statusCode: 200,
             body: JSON.stringify(result.Items[0]),
