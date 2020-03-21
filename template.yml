@@ -150,7 +150,7 @@ Resources:
     Properties:
       KeySchema:
         - AttributeName: "id"
-          KeyType: "RANGE"
+          KeyType: "HASH"
       AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "S"
