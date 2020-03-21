@@ -153,7 +153,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /{uuid}
+            Path: /corona-test-case/{uuid}
             Method: GET
 
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
