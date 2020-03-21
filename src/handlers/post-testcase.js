@@ -2,7 +2,7 @@
 
 // Create a DocumentClient that represents the query to add an item
 const dynamodb = require('aws-sdk/clients/dynamodb');
-import { v4 as uuidv4 } from 'uuid';
+const uuid = require('uuid');
 
 const docClient = new dynamodb.DocumentClient();
 
@@ -19,9 +19,9 @@ exports.postTestcaseHandler = async (event) => {
     }
 
     const Item = {
-        "id": uuidv4(), // Technical ID TODO remove this later
-        "uuid_read": uuidv4(),
-        "uuid_write": uuidv4(),
+        "id": uuid.v4(), // Technical ID TODO remove this later
+        "uuid_read": uuid.v4(),
+        "uuid_write": uuid.v4(),
         "infected": "NOT_TESTED",
         "date": new Date().toISOString()
     };
