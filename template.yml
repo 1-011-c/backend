@@ -120,7 +120,7 @@ Resources:
       Description: A lambda function that creates a test case and returns it.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the SampleTable
-        - DynamoDBCrudPolicy:
+        - AmazonDynamoDBFullAccess:
             TableName: !Ref CoronaTestCase
       Environment:
         Variables:
