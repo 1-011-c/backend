@@ -39,7 +39,7 @@ exports.postTestcaseHandler = async (event) => {
 
     const response = {
         statusCode: 200,
-        body: testCase,
+        body: JSON.stringify(testCase),
     };
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
