@@ -51,8 +51,6 @@ async function updateTestCase(item, infected) {
 
 function isAllowedInfectedValue(infected) {
     const allowedValues = {
-        "NOT_TESTED": "NOT_TESTED",
-        "IN_PROGRESS": "IN_PROGRESS",
         "POSITIVE": "POSITIVE",
         "NEGATIVE": "NEGATIVE"
     };
