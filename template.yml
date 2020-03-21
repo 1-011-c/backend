@@ -189,12 +189,19 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
-      LocalSecondaryIndexes:
+      GlobalSecondaryIndexes:
         - IndexName: "idxReadUUID"
           KeySchema:
-            - AttributeName: "id"
-              KeyType: "HASH"
             - AttributeName: "uuid_read"
-              KeyType: "RANGE"
+              KeyType: "HASH"
           Projection:
-            ProjectionType: "KEYS_ONLY"
+            ProjectionType: "ALL"
+#      LocalSecondaryIndexes:
+#        - IndexName: "idxReadUUID"
+#          KeySchema:
+#            - AttributeName: "id"
+#              KeyType: "HASH"
+#            - AttributeName: "uuid_read"
+#              KeyType: "RANGE"
+#          Projection:
+#            ProjectionType: "KEYS_ONLY"
