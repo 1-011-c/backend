@@ -39,12 +39,20 @@ exports.getByReadIdHandler = async (event) => {
 
     // Get the item from the table
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property
-    const { Item } = await docClient.query(query).promise();
-
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify(Item),
-    };
+    const result = await docClient.query(query).promise();
+    console.log("result", JSON.stringify(result));
+    let response;
+    if (result.Items.length <= 0) {
+        response = {
+            statusCode: 404,
+            body: `No test case for uuid ${uuid} found`
+        }
+    } else {
+        response = {
+            statusCode: 200,
+            body: JSON.stringify(result.Items[0]),
+        };
+    }
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
     return response;
