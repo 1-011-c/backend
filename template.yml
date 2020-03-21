@@ -175,10 +175,6 @@ Resources:
       KeySchema:
         - AttributeName: "id"
           KeyType: "HASH"
-        - AttributeName: "uuid_read"
-          KeyType: "RANGE"
-        - AttributeName: "uuid_write"
-          KeyType: "RANGE"
       AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "S"
