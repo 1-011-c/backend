@@ -11,7 +11,7 @@ const tableName = process.env.SAMPLE_TABLE;
 async function getByWriteId(uuid) {
     const query = {
         TableName: tableName,
-        IndexName: "idxReadUUID",
+        IndexName: "idxWriteUUID",
         KeyConditionExpression: "#key = :value",
         ExpressionAttributeNames: {
             "#key": "uuid_write"
@@ -20,9 +20,10 @@ async function getByWriteId(uuid) {
             ":value": uuid
         }
     };
-    const items = await docClient.query(query).promise().Items;
-    if (items.length >= 0) {
-        return items[0];
+    const result = await docClient.query(query).promise();
+    console.log("Query result", JSON.stringify(result));
+    if (result.Items.length >= 0) {
+        return result.Items[0];
     }
     return null;
 }
