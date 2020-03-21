@@ -151,26 +151,26 @@ Resources:
       KeySchema:
         - AttributeName: "id"
           KeyType: "HASH"
+        - AttributeName: "uuid_read"
+          KeyType: "RANGE"
+#        - AttributeName: "uuid_write"
+#          KeyType: "RANGE"
       AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "S"
         - AttributeName: "uuid_read"
           AttributeType: "S"
-        - AttributeName: "uuid_write"
-          AttributeType: "S"
+#        - AttributeName: "uuid_write"
+#          AttributeType: "S"
       ProvisionedThroughput:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
       LocalSecondaryIndexes:
         - IndexName: "idxReadUUID"
           KeySchema:
+            - AttributeName: "id"
+              KeyType: "HASH"
             - AttributeName: "uuid_read"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: "KEYS_ONLY"
-        - IndexName: "idxWriteUUID"
-          KeySchema:
-            - AttributeName: "uuid_write"
               KeyType: "RANGE"
           Projection:
             ProjectionType: "KEYS_ONLY"
