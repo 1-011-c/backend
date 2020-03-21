@@ -40,10 +40,11 @@ describe('Post Test Case handler', () => {
 
         // Compare the result with the expected result
         expect(result).toBeTruthy();
-        expect(result.body.id).toBeTruthy();
-        expect(result.body.uuid_read).toBeTruthy();
-        expect(result.body.uuid_write).toBeTruthy();
-        expect(result.body.infected).toEqual("NOT_TESTED");
-        expect(result.body.date).toBeTruthy();
+        const body = JSON.parse(result.body);
+        expect(body.id).toBeTruthy();
+        expect(body.uuid_read).toBeTruthy();
+        expect(body.uuid_write).toBeTruthy();
+        expect(body.infected).toEqual("NOT_TESTED");
+        expect(body.date).toBeTruthy();
     });
 });
