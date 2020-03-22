@@ -93,6 +93,7 @@ exports.patchSetTestcaseStatus = async (event) => {
         console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
         return response;
     } catch (e) {
+        console.error(`Processing failed: ${e}`)
         return {
             statusCode: e.statusCode,
             body: JSON.stringify({msg: e.msg})
