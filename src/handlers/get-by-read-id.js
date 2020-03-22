@@ -48,7 +48,7 @@ exports.getByReadIdHandler = async (event) => {
         };
         response = {
             statusCode: 404,
-            body: JSON.stringify(responseBody)
+            body: JSON.stringify(responseBody),
         }
     } else {
         delete result.Items[0].uuid_write;
@@ -58,9 +58,8 @@ exports.getByReadIdHandler = async (event) => {
             statusCode: 200,
             body: JSON.stringify(result.Items[0]),
             headers: {
-                "Content-Type": "/",
                 "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET, OPTIONS",
+                "Access-Control-Allow-Methods" : "GET, POST, PATCH, OPTIONS",
                 "Access-Control-Allow-Headers": "*"
             }
         };

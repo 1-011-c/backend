@@ -52,6 +52,12 @@ exports.postTestcaseHandler = async (event) => {
     const response = {
         statusCode: 200,
         body: JSON.stringify(cases),
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET, OPTIONS",
+            "Access-Control-Allow-Headers": "*"
+        }
     };
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
