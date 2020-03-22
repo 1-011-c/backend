@@ -1,4 +1,5 @@
-# Technical documentation
+![logo](logo.png)
+
 ## Purpose
 This backend creates, updates and delivers corona test result. For every test case two uuids are generated. One for the laboratory and one for the patient. The laboratory can update the result (infect=POSITIVE/NEGATIVE), the patient is able to read this result.
 
