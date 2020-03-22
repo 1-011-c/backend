@@ -78,12 +78,6 @@ async function processRequest(uuid, infected, httpMethod) {
     return {
         statusCode,
         body: JSON.stringify(responseBody),
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET, POST, PATCH, OPTIONS",
-            "Access-Control-Allow-Headers": "*"
-        }
     };
 }
 
