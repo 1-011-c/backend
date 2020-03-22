@@ -19,6 +19,8 @@ The dynamodb contains one table, called CoronaTestCase:
     - one for the uuid_read (patients uuid)
     - one for the uuid_write (laboratory uuid)
 
+The result itself is stored in the field infected. Possible values are 'NOT_TESTED', 'POSITIVE' and 'NEGATIVE'.
+
 ## Lambdas
 The lambdas are called through an API Gateway. But you can also test them in the AWS console. In order to do so, the event must contain the httpMethod and some other information (see lamdas in src/handlers).
 
