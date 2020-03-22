@@ -58,8 +58,9 @@ exports.getByReadIdHandler = async (event) => {
             statusCode: 200,
             body: JSON.stringify(result.Items[0]),
             headers: {
+                "Content-Type" : "application/json",
                 "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET, POST, PATCH, OPTIONS",
+                "Access-Control-Allow-Methods" : "GET, OPTIONS",
                 "Access-Control-Allow-Headers": "*"
             }
         };

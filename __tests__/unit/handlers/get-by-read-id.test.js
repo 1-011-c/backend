@@ -48,7 +48,7 @@ describe('Get Test Case handler', () => {
         const result = await lambda.getByReadIdHandler(event);
         expect(result).toBeTruthy();
         expect(result.statusCode).toEqual(200);
-        expect(result.headers['Content-Type']).toEqual('/');
+        expect(result.headers['Content-Type']).toEqual('application/json');
         expect(result.headers['Access-Control-Allow-Origin']).toEqual('*');
         expect(result.headers['Access-Control-Allow-Methods']).toEqual('GET, OPTIONS');
         expect(result.headers['Access-Control-Allow-Headers']).toEqual('*');
