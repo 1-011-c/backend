@@ -22,3 +22,8 @@ The dynamodb contains one table, called CoronaTestCase:
 ## Lambdas
 The lambdas are called through an API Gateway. But you can also test them in the AWS console. In order to do so, the event must contain the httpMethod and some other information (see lamdas in src/handlers).
 
+## Build & deployment
+Tests are started for each commit on master and every PR. Github Action for this is configured in [.github/workflows/nodejs.yml](.github/workflows/nodejs.yml).
+
+Deployment is done via AWS codebuild (tests are executed here too). The configuration can be found in [buildspec.yml](buildspec.yml).
+
