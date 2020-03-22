@@ -1,6 +1,6 @@
 // Create clients and set shared const values outside of the handler
 
-// Create a DocumentClient that represents the query to get an item
+// Create a DocumentClient that represents query and update
 const dynamodb = require('aws-sdk/clients/dynamodb');
 
 const docClient = new dynamodb.DocumentClient();
@@ -72,8 +72,7 @@ async function processRequest(uuid, infected, httpMethod) {
         statusCode = 200;
         responseBody = JSON.stringify(await getByWriteId(uuid));
     } else {
-        statusCode = 404;
-        responseBody = `No test case for uuid ${uuid} found`
+        throwHttpError(`No test case for uuid ${uuid} found`, 404)
     }
     return {
         statusCode,
